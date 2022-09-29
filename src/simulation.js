@@ -53,22 +53,56 @@ export default function(nodes, numDimensions) {
 
     for (var k = 0; k < iterations; ++k) {
       alpha += (alphaTarget - alpha) * alphaDecay;
+      
+      // update velocities (half-step)
+      for (i = 0; i < n; ++i) {
+        node = nodes[i];
+
+        if (node.fx == null) node.vx += 0.5*node.force_x*dt/node.mass;
+        else node.vx = 0, node.force_x = 0, node.x = node.fx;
+        if (nDim > 1){
+          if (node.fy == null) node.vy += 0.5*node.force_y*dt/node.mass;
+          else node.vy = 0, node.force_y = 0, node.y = node.fy;
+        }
+        if (nDim > 2){
+          if (node.fz == null) node.vz += 0.5*node.force_z*dt/node.mass;
+          else node.vz = 0, node.force_z = 0, node.z = node.fz;
+        }
+      }
+      
+      // update positions
+      for (i = 0; i < n; ++i) {
+        node = nodes[i];
+        
+        if (node.fx == null) node.x += dt*(node.vx *= velocityDecay);
+        else node.x = node.fx;
+        if (nDim > 1){
+          if (node.fy == null) node.y += dt*(node.vy *= velocityDecay);
+          else node.y = node.fy;
+        }
+        if (nDim > 2){
+          if (node.fz == null) node.z += dt*(node.vz *= velocityDecay);
+          else node.z = node.fz;
+        }
+      }
 
       forces.forEach(function (force) {
         force(alpha);
       });
 
+      // update velocities (full-step)
       for (i = 0; i < n; ++i) {
         node = nodes[i];
-        if (node.fx == null) node.x += node.vx *= velocityDecay;
-        else node.x = node.fx, node.vx = 0;
-        if (nDim > 1) {
-          if (node.fy == null) node.y += node.vy *= velocityDecay;
-          else node.y = node.fy, node.vy = 0;
+
+        if (node.fx == null) node.vx += 0.5*node.force_x*dt/node.mass;
+        else node.vx = 0, node.force_x = 0, node.x = node.fx;
+        if (nDim > 1){
+          if (node.fy == null) node.vy += 0.5*node.force_y*dt/node.mass;
+          else node.vy = 0, node.force_y = 0, node.y = node.fy;
         }
-        if (nDim > 2) {
-          if (node.fz == null) node.z += node.vz *= velocityDecay;
-          else node.z = node.fz, node.vz = 0;
+        if (nDim > 2){
+          if (node.fz == null) node.vz += 0.5*node.force_z*dt/node.mass;
+          else node.vz = 0, node.force_z = 0, node.z = node.fz;
         }
       }
     }
