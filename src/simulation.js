@@ -38,7 +38,7 @@ export default function(nodes, numDimensions) {
   if (nodes == null) nodes = [];
 
   function step() {
-    tick();
+    tick(dt);
     event.call("tick", simulation);
     if (alpha < alphaMin) {
       stepper.stop();
@@ -137,6 +137,13 @@ export default function(nodes, numDimensions) {
         if (nDim > 1) { node.vy = 0; }
         if (nDim > 2) { node.vz = 0; }
       }
+	  
+	  if (isNaN(node.force_x) || (nDim > 1 && isNaN(node.force_y)) || (nDim > 2 && isNaN(node.force_z))) {
+        node.force_x = 0;
+        if (nDim > 1) { node.force_y = 0; }
+        if (nDim > 2) { node.force_z = 0; }
+      }
+	  
     }
   }
 
