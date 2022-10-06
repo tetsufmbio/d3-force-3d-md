@@ -7,7 +7,7 @@ d3-force-3d-md
 
 Extended version of [d3-force](https://github.com/d3/d3-force) to support other dimensions besides 2D, via the method [*numDimensions*](#simulation_numDimensions), supporting the values 1, 2 or 3 (default to 2) and to implement a true [velocity Verlet](https://en.wikipedia.org/wiki/Verlet_integration). Fully backwards compatible with [d3-force](https://github.com/d3/d3-force) (version [3.0.0](https://github.com/d3/d3-force/tree/v3.0.0)), and should just work as a drop-in replacement d3 module.
 
-This version is a fusion between the modules [d3-force-3d](https://github.com/vasturiano/d3-force-3d), which support simulations up to three dimensions, and [d3-force-md](https://github.com/gvarnavi/d3-force-md), which implement the true a true velocity Verlet.
+This version is a merge between the modules [d3-force-3d](https://github.com/vasturiano/d3-force-3d), which support simulations up to three dimensions, and [d3-force-md](https://github.com/gvarnavi/d3-force-md), which implement the true a true velocity Verlet.
 
 This module and its documentation are still in development.
 
