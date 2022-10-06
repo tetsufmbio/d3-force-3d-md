@@ -39,7 +39,7 @@ export default function(nodes, numDimensions) {
   if (nodes == null) nodes = [];
 
   function step() {
-    tick(dt);
+    tick();
     event.call("tick", simulation);
     if (alpha < alphaMin) {
       stepper.stop();
