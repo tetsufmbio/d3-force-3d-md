@@ -1,13 +1,15 @@
-d3-force-3d
+d3-force-3d-md
 ==============
 
 [![NPM package][npm-img]][npm-url]
 [![Build Size][build-size-img]][build-size-url]
 [![NPM Downloads][npm-downloads-img]][npm-downloads-url]
 
-Extended version of [d3-force](https://github.com/d3/d3-force) to support other dimensions besides 2D, via the method [*numDimensions*](#simulation_numDimensions), supporting the values 1, 2 or 3 (default to 2). Fully backwards compatible with [d3-force](https://github.com/d3/d3-force) (version [3.0.0](https://github.com/d3/d3-force/tree/v3.0.0)), and should just work as a drop-in replacement d3 module.
+Extended version of [d3-force](https://github.com/d3/d3-force) to support other dimensions besides 2D, via the method [*numDimensions*](#simulation_numDimensions), supporting the values 1, 2 or 3 (default to 2) and to implement a true [velocity Verlet](https://en.wikipedia.org/wiki/Verlet_integration). Fully backwards compatible with [d3-force](https://github.com/d3/d3-force) (version [3.0.0](https://github.com/d3/d3-force/tree/v3.0.0)), and should just work as a drop-in replacement d3 module.
 
-This module implements a [velocity Verlet](https://en.wikipedia.org/wiki/Verlet_integration) numerical integrator for simulating physical forces on particles. The simulation is simplified: it assumes a constant unit time step Δ*t* = 1 for each step, and a constant unit mass *m* = 1 for all particles. As a result, a force *F* acting on a particle is equivalent to a constant acceleration *a* over the time interval Δ*t*, and can be simulated simply by adding to the particle’s velocity, which is then added to the particle’s position.
+This version is a fusion between the modules [d3-force-3d](https://github.com/vasturiano/d3-force-3d), which support simulations up to three dimensions, and [d3-force-md](https://github.com/gvarnavi/d3-force-md), which implement the true a true velocity Verlet.
+
+This module and its documentation is still in development.
 
 In the domain of information visualization, physical simulations are useful for studying [networks](https://observablehq.com/@d3/force-directed-graph) and [hierarchies](https://observablehq.com/@d3/force-directed-tree)!
 
@@ -29,7 +31,7 @@ To use this module, create a [simulation](#simulation) for an array of [nodes](#
 
 ## Installing
 
-If you use NPM, `npm install d3-force-3d`. You can also load directly from the global [npmJS](https://npmjs.com) registry, as a bundled [standalone library](https://unpkg.com/d3-force-3d). For vanilla HTML in modern browsers, import d3-force-3d from Skypack:
+If you use NPM, `npm install d3-force-3d-md`. You can also load directly from the global [npmJS](https://npmjs.com) registry, as a bundled [standalone library](https://unpkg.com/d3-force-3d). For vanilla HTML in modern browsers, import d3-force-3d from Skypack:
 
 ```html
 <script type="module">
@@ -105,6 +107,10 @@ Each *node* must be an object. The following properties are assigned by the simu
 * `vx` - the node’s current *x*-velocity
 * `vy` - the node’s current *y*-velocity (if using 2 or more dimensions)
 * `vz` - the node’s current *z*-velocity (if using 3 dimensions)
+* `force_x` - the node’s current x-force
+* `force_y` - the node’s current y-force
+* `force_z` - the node’s current z-force
+* `mass` - the node’s mass
 
 The position ⟨*x*[,*y*[,*z*]]⟩ and velocity ⟨*vx*[,*vy*[,*vz*]]⟩ may be subsequently modified by [forces](#forces) and by the simulation. If either applicable *vx*, *vy* or *vz* is NaN, the velocity is initialized to ⟨0,0,0⟩. If either applicable *x*, *y* or *z* is NaN, the 2D position is initialized in a [phyllotaxis arrangement](https://observablehq.com/@d3/force-layout-phyllotaxis), so chosen to ensure a deterministic, uniform distribution around the origin.
 
@@ -541,9 +547,9 @@ If *y* is specified, sets the *y*-coordinate of the sphere center to the specifi
 If *z* is specified, sets the *z*-coordinate of the sphere center to the specified number and returns this force. If *z* is not specified, returns the current *z*-coordinate of the center, which defaults to zero. 
 
 
-[npm-img]: https://img.shields.io/npm/v/d3-force-3d
-[npm-url]: https://npmjs.org/package/d3-force-3d
-[build-size-img]: https://img.shields.io/bundlephobia/minzip/d3-force-3d
-[build-size-url]: https://bundlephobia.com/result?p=d3-force-3d
-[npm-downloads-img]: https://img.shields.io/npm/dt/d3-force-3d
-[npm-downloads-url]: https://www.npmtrends.com/d3-force-3d
+[npm-img]: https://img.shields.io/npm/v/d3-force-3d-md
+[npm-url]: https://npmjs.org/package/d3-force-3d-md
+[build-size-img]: https://img.shields.io/bundlephobia/minzip/d3-force-3d-md
+[build-size-url]: https://bundlephobia.com/result?p=d3-force-3d-md
+[npm-downloads-img]: https://img.shields.io/npm/dt/d3-force-3d-md
+[npm-downloads-url]: https://www.npmtrends.com/d3-force-3d-md
