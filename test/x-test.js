@@ -35,8 +35,8 @@ it("forceX respects fixed positions", () => {
   const f = forceSimulation().force("x", x).stop();
   const a = { fx: 0, fy:0 }, b = {}, c = {};
   f.nodes([a, b, c]);
-  f.tick();
-  assertNodeEqual(a, { fx: 0, fy: 0, index: 0, x: 0, y: 0, vy: 0, vx: 0 });
+  f.tick(2);
+  assertNodeEqual(a, { fx: 0, fy: 0, index: 0, x: 0, y: 0, vy: 0, vx: 0, force_x: 0, force_y: 0, mass: 1 });
 });
 
 it("forceY respects fixed positions", () => {
@@ -44,8 +44,8 @@ it("forceY respects fixed positions", () => {
   const f = forceSimulation().force("y", y).stop();
   const a = { fx: 0, fy:0 }, b = {}, c = {};
   f.nodes([a, b, c]);
-  f.tick();
-  assertNodeEqual(a, { fx: 0, fy: 0, index: 0, x: 0, y: 0, vy: 0, vx: 0 });
+  f.tick(2);
+  assertNodeEqual(a, { fx: 0, fy: 0, index: 0, x: 0, y: 0, vy: 0, vx: 0, force_x: 0, force_y: 0, mass: 1 });
 });
 
 it("forceX.x() accessor", () => {
