@@ -13,9 +13,9 @@ it("forceCollide collides nodes", () => {
   assertNodeEqual(c, {index: 2, x: 1.3823220809823638, y: -15.750847141167634, vy: 0, vx: 0, force_x: 0, force_y: 0, mass: 1});
   collide.radius(100);
   f.tick(10);
-  assertNodeEqual(a, {index: 0, x: 174.08616723117228, y: 66.51743051995625, vy: 0.26976816231064354, vx: 0.677346615710878, force_x: 0, force_y: 0, force_z: 0, mass: 1});
-  assertNodeEqual(b, {index: 1, x: -139.73606544743998, y: 95.69860503079263, vy: 0.3545632444404687, vx: -0.5300880593105067, force_x: 0, force_y: 0, force_z: 0, mass: 1});
-  assertNodeEqual(c, {index: 2, x: -34.9275994083864, y: -169.69384995620052, vy: -0.6243314067511122, vx: -0.1472585564003713, force_x: 0, force_y: 0, force_z: 0, mass: 1});
+  assertNodeEqual(a, {index: 0, x: 174.08616723117228, y: 66.51743051995625, vy: 0.26976816231064354, vx: 0.677346615710878, force_x: 0, force_y: 0, mass: 1});
+  assertNodeEqual(b, {index: 1, x: -139.73606544743998, y: 95.69860503079263, vy: 0.3545632444404687, vx: -0.5300880593105067, force_x: 0, force_y: 0, mass: 1});
+  assertNodeEqual(c, {index: 2, x: -34.9275994083864, y: -169.69384995620052, vy: -0.6243314067511122, vx: -0.1472585564003713, force_x: 0, force_y: 0, mass: 1});
 });
 
 
