@@ -25,6 +25,7 @@ export default function(nodes, numDimensions) {
 
   var nDim = Math.min(MAX_DIMENSIONS, Math.max(1, Math.round(numDimensions))),
       simulation,
+	  dt = 1,
       alpha = 1,
       alphaMin = 0.001,
       alphaDecay = 1 - Math.pow(alphaMin, 1 / 300),
