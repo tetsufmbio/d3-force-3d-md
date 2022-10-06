@@ -1,11 +1,11 @@
 {
-  "name": "d3-force-3d",
-  "version": "3.0.3",
-  "description": "Force-directed graph layout in 1D, 2D or 3D using velocity Verlet integration.",
-  "homepage": "https://github.com/vasturiano/d3-force-3d",
+  "name": "d3-force-3d-md",
+  "version": "1.0.1",
+  "description": "Force-directed graph layout in 1D, 2D or 3D using true velocity Verlet integration.",
+  "homepage": "https://github.com/tetsufmbio/d3-force-3d-md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vasturiano/d3-force-3d.git"
+    "url": "https://github.com/tetsufmbio/d3-force-3d-md.git"
   },
   "keywords": [
     "d3",
@@ -20,8 +20,8 @@
   ],
   "license": "MIT",
   "author": {
-    "name": "Vasco Asturiano",
-    "url": "https://bl.ocks.org/vasturiano"
+    "name": "Tetsu Sakamoto",
+    "url": "https://github.com/tetsufmbio"
   },
   "type": "module",
   "files": [
