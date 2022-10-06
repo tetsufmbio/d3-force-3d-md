@@ -1,6 +1,6 @@
 {
   "name": "d3-force-3d-md",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Force-directed graph layout in 1D, 2D or 3D using true velocity Verlet integration.",
   "homepage": "https://github.com/tetsufmbio/d3-force-3d-md",
   "repository": {
@@ -30,10 +30,10 @@
   ],
   "module": "src/index.js",
   "main": "src/index.js",
-  "jsdelivr": "dist/d3-force-3d.min.js",
-  "unpkg": "dist/d3-force-3d.min.js",
+  "jsdelivr": "dist/d3-force-3d-md.min.js",
+  "unpkg": "dist/d3-force-3d-md.min.js",
   "exports": {
-    "umd": "./dist/d3-force-3d.min.js",
+    "umd": "./dist/d3-force-3d-md.min.js",
     "default": "./src/index.js"
   },
   "sideEffects": false,
