@@ -25,7 +25,7 @@ export default function(nodes, numDimensions) {
 
   var nDim = Math.min(MAX_DIMENSIONS, Math.max(1, Math.round(numDimensions))),
       simulation,
-	  dt = 1,
+      dt = 1,
       alpha = 1,
       alphaMin = 0.001,
       alphaDecay = 1 - Math.pow(alphaMin, 1 / 300),
@@ -138,15 +138,15 @@ export default function(nodes, numDimensions) {
         if (nDim > 1) { node.vy = 0; }
         if (nDim > 2) { node.vz = 0; }
       }
-	  
-	  if (isNaN(node.force_x) || (nDim > 1 && isNaN(node.force_y)) || (nDim > 2 && isNaN(node.force_z))) {
+
+      if (isNaN(node.force_x) || (nDim > 1 && isNaN(node.force_y)) || (nDim > 2 && isNaN(node.force_z))) {
         node.force_x = 0;
         if (nDim > 1) { node.force_y = 0; }
         if (nDim > 2) { node.force_z = 0; }
       }
-	  
-	  if (isNaN(node.mass)) node.mass = 1;
-	  
+
+      if (isNaN(node.mass)) node.mass = 1;
+
     }
   }
 
