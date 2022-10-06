@@ -36,7 +36,7 @@ it("forceCollide jiggles equal positions", () => {
   const f = forceSimulation().force("collide", collide).stop();
   const a = {x: 0, y: 0}, b = {x: 0, y: 0};
   f.nodes([a, b]);
-  f.tick();
+  f.tick(2);
   assert(a.x !== b.x);
   assert(a.y !== b.y);
   assert.strictEqual(a.vx, -b.vx);
