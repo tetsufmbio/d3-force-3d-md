@@ -9,7 +9,7 @@ Extended version of [d3-force](https://github.com/d3/d3-force) to support other 
 
 This version is a fusion between the modules [d3-force-3d](https://github.com/vasturiano/d3-force-3d), which support simulations up to three dimensions, and [d3-force-md](https://github.com/gvarnavi/d3-force-md), which implement the true a true velocity Verlet.
 
-This module and its documentation is still in development.
+This module and its documentation are still in development.
 
 In the domain of information visualization, physical simulations are useful for studying [networks](https://observablehq.com/@d3/force-directed-graph) and [hierarchies](https://observablehq.com/@d3/force-directed-tree)!
 
