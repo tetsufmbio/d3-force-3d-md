@@ -145,6 +145,8 @@ export default function(nodes, numDimensions) {
         if (nDim > 2) { node.force_z = 0; }
       }
 	  
+	  if (isNaN(node.mass)) node.mass = 1;
+	  
     }
   }
 
