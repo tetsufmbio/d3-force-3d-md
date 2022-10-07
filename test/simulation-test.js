@@ -4,7 +4,7 @@ import {assertNodeEqual} from "./asserts.js";
 
 it("forceSimulation() returns a simulation", () => {
   const f = forceSimulation().stop();
-  assert.deepStrictEqual(Object.keys(f).sort(), [ 'alpha', 'alphaDecay', 'alphaMin', 'alphaTarget', 'find', 'force', 'nodes', 'numDimensions', 'on', 'randomSource', 'restart', 'stop', 'tick', 'velocityDecay' ]);
+  assert.deepStrictEqual(Object.keys(f).sort(), [ 'alpha', 'alphaDecay', 'alphaMin', 'alphaTarget', 'dt', 'find', 'force', 'nodes', 'numDimensions', 'on', 'randomSource', 'restart', 'stop', 'tick', 'velocityDecay' ]);
 });
 
 it("simulation.nodes(nodes) initializes a simulation with indices & phyllotaxis positions, 0 speed", () => {
