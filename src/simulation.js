@@ -186,6 +186,10 @@ export default function(nodes, numDimensions) {
       return arguments.length ? (alphaMin = +_, simulation) : alphaMin;
     },
 
+    dt: function(_) {
+      return arguments.length ? (dt = +_, simulation) : dt;
+    },
+	
     alphaDecay: function(_) {
       return arguments.length ? (alphaDecay = +_, simulation) : +alphaDecay;
     },
