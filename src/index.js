@@ -7,3 +7,4 @@ export {default as forceSimulation} from "./simulation.js";
 export {default as forceX} from "./x.js";
 export {default as forceY} from "./y.js";
 export {default as forceZ} from "./z.js";
+export {default as forceLennardJones} from "./lennardJonesPotential.js";
