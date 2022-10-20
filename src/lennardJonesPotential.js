@@ -7,7 +7,7 @@ import {x, y, z} from "./simulation.js";
 
 export default function() {
   var nodes,
-	  nDim,
+      nDim,
       node,
       random,
       alpha,
@@ -55,7 +55,7 @@ export default function() {
           strength += q.value, weight += c, x += c * (q.x || 0), y += c * (q.y || 0), z += c * (q.z || 0);
         }
       }
-	  strength *= Math.sqrt(4 / numChildren); // scale accumulated strength according to number of dimensions (d3-force-3d)
+      strength *= Math.sqrt(4 / numChildren); // scale accumulated strength according to number of dimensions (d3-force-3d)
 
       treeNode.x = x / weight;
       if (nDim > 1) { treeNode.y = y / weight; }
@@ -83,7 +83,8 @@ export default function() {
     var x = treeNode.x - node.x,
         y = (nDim > 1 ? treeNode.y - node.y : 0),
         z = (nDim > 2 ? treeNode.z - node.z : 0),
-        l = x * x + y * y + z * z;
+		w = x2 - x1,
+        l = x * x + y * y + z * z,
         force_prefactor;
 
     // Apply the Barnes-Hut approximation if possible.
