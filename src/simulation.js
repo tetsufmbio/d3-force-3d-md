@@ -86,7 +86,10 @@ export default function(nodes, numDimensions) {
           else node.z = node.fz;
         }
       }
-
+	  
+	  // restart force
+      node.force_x = node.force_y = node.force_z = 0;
+	  
       forces.forEach(function (force) {
         force(alpha);
       });
