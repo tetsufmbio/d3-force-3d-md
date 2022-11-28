@@ -86,14 +86,11 @@ export default function(nodes, numDimensions) {
           else node.z = node.fz;
         }
       }
-	  
-	  // restart force
+      // restart force
       node.force_x = node.force_y = node.force_z = 0;
-	  
       forces.forEach(function (force) {
         force(alpha);
       });
-
       // update velocities (full-step)
       for (i = 0; i < n; ++i) {
         node = nodes[i];
