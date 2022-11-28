@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <style> body { margin: 0; } </style>
+    <script src="http://unpkg.com/3d-force-graph"></script>
+	<script src="http://unpkg.com/d3-octree"></script>
+	<script src="d3-force-3d-md.js"></script>
+    
+    <style type="text/css">
+        .graph-info-msg {
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: lavender;
+            opacity: 0.7;
+            font-size: 22px;
+            position: absolute;
+            font-family: Sans-serif;
+        }
+      
+        .scene-container .clickable {
+            cursor: pointer;
+        }
+      
+        .scene-container .grabbable {
+            cursor: move;
+            cursor: grab;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+        }
+      
+        .scene-container .grabbable:active {
+            cursor: grabbing;
+            cursor: -moz-grabbing;
+            cursor: -webkit-grabbing;
+        }
+    </style>
+
+    <style type="text/css">
+        .scene-nav-info {
+            bottom: 5px;
+            width: 100%;
+            text-align: center;
+            color: slategrey;
+            opacity: 0.7;
+            font-size: 10px;
+        }
+        
+        .scene-tooltip {
+            color: lavender;
+            font-size: 15px;
+        }
+        
+        .scene-nav-info, .scene-tooltip {
+            position: absolute;
+            font-family: sans-serif;
+            pointer-events: none;
+        }
+        
+        .scene-container canvas:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="3d-graph">
+        <div style="position: relative;">
+            <div>
+                <div class="scene-container" style="position: relative; width: 1920px; height: 937px;">
+                    <div class="scene-nav-info">Left-click: rotate, Mouse-wheel/middle-click: zoom, Right-click: pan</div>
+                    <div class="scene-tooltip" style="top: 314px; left: 1306px; transform: translate(-68.0208%, 21px);"></div>
+                    <canvas width="1920" height="937" style="display: block; touch-action: none; width: 1920px; height: 937px;" class=""></canvas>
+                </div>
+            </div>
+            <div class="graph-info-msg"></div>
+        </div>
+    </div>
+
+    <script>
+		
+		const N = 100;
+		const T = 300;
+		const dt = 1;
+		// atomic mass
+		const mass = {
+			"Ar": 39.948,
+		};
+		
+		const sigma = {
+			"Ar": 3.4,
+		};
+		
+		const epsilon = {
+			"Ar": 0.0103,
+		};
+		
+		// Determine a random initial velocity 
+		function init_velocity(T, mass){
+			boltzmann = 1.380649*10**(-23);
+			return (Math.random() -0.5) * (boltzmann * T /(mass * 1.602*10**(-19)))**0.5;
+		}
+		
+		const gData = {
+          
+		  nodes: [...Array(N).keys()].map(() => ({
+			  // Initial velocity in random direction
+			  name:"Ar",
+			  mass:18,
+			  group:1,
+			})),
+		/*	
+			nodes: [
+                {id: 1, "name":"Ar", "size":18, "group": 1, "x":1, "y":0, "z":0, "vx":-0.00546573},
+                {id: 2, "name":"Ar", "size":18, "group": 1, "x":5, "y":0, "z":0, "vx":0.00442253},
+                {id: 3, "name":"Ar", "size":18, "group": 1, "x":20, "y":0, "z":0,"vx":0.00260706},
+            ],*/
+			
+          links: []
+        };		
+		
+		let nodes = gData.nodes;
+		
+		nodes.forEach(function (node){
+			node.x = Math.random()*(N)*1;
+			node.y = Math.random()*(N)*1;
+			node.z = Math.random()*(N)*1;
+			node.vx = init_velocity(T, mass[node.name]);
+			node.vy = init_velocity(T, mass[node.name]);
+			node.vz = init_velocity(T, mass[node.name]);
+			node.force_x = 0;
+			node.force_y = 0;
+			node.force_z = 0;
+		});
+		
+		// calculate forces for first iteration
+		lennard_jones(nodes);
+		
+		// calculate acceleration for first iteration
+		
+		for (var i = 0; i < nodes.length; i++){
+			let node = nodes[i];
+			a1 = [node.force_x/mass[node.name], node.force_y/mass[node.name], node.force_z/mass[node.name]];
+			node.accel = a1;
+		}
+		
+		function update_pos(nodes){
+			//let t1 = [];
+			for (var i = 0; i < nodes.length; i++){
+				let node = nodes[i];
+				node.x += node.vx * dt + 0.5 * node.accel[0] * dt * dt;
+				node.y += node.vy * dt + 0.5 * node.accel[1] * dt * dt;
+				node.z += node.vz * dt + 0.5 * node.accel[2] * dt * dt;
+				//t1[i] = {"x":t1_x, "y":t1_y, "z":t1_z, "name":node.name};
+			}
+
+			return false;
+		}
+		
+		function lennard_jones(nodes){
+			for (var i = 0; i < nodes.length; i++){
+				
+				for (var j = 0; j < i; j++){
+					if(i == j){
+						continue;
+					}
+					r_x = nodes[j].x - nodes[i].x;
+					r_y = nodes[j].y - nodes[i].y;
+					r_z = nodes[j].z - nodes[i].z;
+					d = (r_x**2 + r_y**2 + r_z**2)**0.5;
+					force_scalar = lj_force(d, (epsilon[nodes[i].name]*epsilon[nodes[j].name])**0.5, (sigma[nodes[i].name]+sigma[nodes[j].name])/2);
+					force_x = force_scalar * r_x / d;
+					force_y = force_scalar * r_y / d;
+					force_z = force_scalar * r_z / d;
+					nodes[i].force_x += -force_x;
+					nodes[i].force_y += -force_y;
+					nodes[i].force_z += -force_z;
+					
+					nodes[j].force_x += force_x;
+					nodes[j].force_y += force_y;
+					nodes[j].force_z += force_z;
+				}
+			}
+			
+			function lj_force (r, epsilon, sigma){
+				return 48 * epsilon * sigma**12 / r**13 - 24 * epsilon * sigma**6 / r**7;
+			}
+			
+		}
+		
+        const Graph = ForceGraph3D()
+          (document.getElementById('3d-graph'));
+		  
+		 Graph.cooldownTime(Infinity)
+		  .d3AlphaDecay(0)
+		  .d3VelocityDecay(0)
+		  
+		  // max number of ticks
+		  /*.cooldownTicks(30)
+		  
+		  // callback after tick
+		  .onEngineTick(function(){
+			console.log(nodes[0].x + " " + nodes[1].x + " " + nodes[2].x );
+			console.log(nodes[0].accel[0] + " " + nodes[1].accel[0] + " " + nodes[2].accel[0] );
+			console.log(nodes[0].vx + " " + nodes[1].vx + " " + nodes[2].vx );
+		  })
+		  */
+		  // Deactivate existing forces
+		  .d3Force('center', null)
+		  .d3Force('charge', null)
+		  
+		  // Add Lennard-Jones potential 
+		  .d3Force('lennard-jones', d3.forceLennardJones())
+		  /*.d3Force('lennard-jones', () => {
+				
+				lennard_jones(nodes);
+			})*/
+		  
+		  // Add other pontentials here
+/*		  
+		 .d3Force('update_pos', () => {
+				for(var a = 0; a < 100; a++){
+					update_pos(nodes);
+					for (var i = 0; i < nodes.length; i++){
+						nodes[i].force_x = 0;
+						nodes[i].force_y = 0;
+						nodes[i].force_z = 0;
+					}
+					lennard_jones(nodes);
+					for (let i = 0; i < nodes.length; i++) {
+						node = nodes[i];
+						// get new accelerations
+						a1 = [node.force_x/mass[node.name], node.force_y/mass[node.name], node.force_z/mass[node.name]]
+						  
+						node.vx += 0.5*(node.accel[0] + a1[0])*dt;
+						node.vy += 0.5*(node.accel[1] + a1[1])*dt;
+						node.vz += 0.5*(node.accel[2] + a1[2])*dt;
+						  
+						// Update acceleration
+						node.accel = a1;
+					}
+				}
+				
+
+		  })
+	    */
+		  // Add bounding box forces		  
+		  .d3Force('box', () => {
+			const CUBE_HALF_SIDE = Graph.nodeRelSize() * N * 0.25;
+
+			nodes.forEach(node => {
+			  const x = node.x || 0, y = node.y || 0, z = node.z || 0;
+
+			  // bounce on box walls
+			  if (Math.abs(x) > CUBE_HALF_SIDE) { node.vx *= -1; }
+			  if (Math.abs(y) > CUBE_HALF_SIDE) { node.vy *= -1; }
+			  if (Math.abs(z) > CUBE_HALF_SIDE) { node.vz *= -1; }
+			});
+		  })
+		  
+		  // Update velocity of each atom
+		  /*.d3Force('update_velocity', () => {
+			
+			for (let i = 0; i < nodes.length; i++) {
+			  node = nodes[i];
+			  // get new accelerations
+			  a1 = [node.force_x/mass[node.name], node.force_y/mass[node.name], node.force_z/mass[node.name]]
+			  
+			  node.vx += 0.5*(node.accel[0] + a1[0])*dt;
+			  node.vy += 0.5*(node.accel[1] + a1[1])*dt;
+			  node.vz += 0.5*(node.accel[2] + a1[2])*dt;
+			  
+			  // Update acceleration
+			  node.accel = a1;
+			  
+			  // correct position 
+			  node.x -= node.vx;
+			  node.y -= node.vy;
+			  node.z -= node.vz;
+				  
+			}
+		  })*/
+		
+		  // Add nodes
+			.graphData(gData)
+			.nodeLabel("name")
+			.nodeAutoColorBy("group")
+			.nodeVal(function volume(i){return (4/3) *Math.Pi * sigma[i.name]**3});
+			//.nodeTitle("name");
+		  
+    </script>
+</body>
+</html>
