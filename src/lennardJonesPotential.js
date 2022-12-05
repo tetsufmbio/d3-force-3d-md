@@ -98,9 +98,10 @@ export default function() {
         if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;
         if (l < distanceMin2) l = Math.sqrt(distanceMin2 * l);
 
+        const atom_type = node.type || 'DEFAULT';
         const distance = Math.sqrt(l)
-        const sigma = (atoms[node.name].sigma + atoms[treeNode.name].sigma)/2; // Aqui usei os mesmos dois nodes, mas precisam ser diferentes.
-        const epsilon = 4*atoms[node.name].epsilon;
+        const sigma = (atoms[node.name][atom_type].sigma + atoms[treeNode.name][atom_type].sigma)/2;
+        const epsilon = 4*atoms[node.name][atom_type].epsilon;
         force_prefactor = 4*epsilon * (N* Math.pow(sigma/distance, N) - M * Math.pow(sigma/distance, M))/distance;
 
         node.energy += (N*Math.pow(l,-M/2)-M*Math.pow(l,-N/2))/(M-N)*treeNode.value;
@@ -123,9 +124,10 @@ export default function() {
       if (l < distanceMin2) l = Math.sqrt(distanceMin2 * l);
     }
 
+    const atom_type = node.type || 'DEFAULT';
     const distance = Math.sqrt(l)
-    const sigma = (atoms[node.name].sigma + atoms[treeNode.name].sigma)/2; // Aqui usei os mesmos dois nodes, mas precisam ser diferentes.
-    const epsilon = 4*atoms[node.name].epsilon;
+    const sigma = (atoms[node.name][atom_type].sigma + atoms[treeNode.name][atom_type].sigma)/2;
+    const epsilon = 4*atoms[node.name][atom_type].epsilon;
     force_prefactor = 4*epsilon * (N* Math.pow(sigma/distance, N) - M * Math.pow(sigma/distance, M))/distance;
 
     do if (treeNode.data !== node) {
