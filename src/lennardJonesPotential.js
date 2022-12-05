@@ -124,7 +124,9 @@ export default function() {
       if (l < distanceMin2) l = Math.sqrt(distanceMin2 * l);
     }
 
+    // The type of the atom is assumed to be default if not specified.
     const atom_type = node.type || 'DEFAULT';
+    
     const distance = Math.sqrt(l)
     const sigma = (atoms[node.name][atom_type].sigma + atoms[treeNode.name][atom_type].sigma)/2;
     const epsilon = 4*atoms[node.name][atom_type].epsilon;
