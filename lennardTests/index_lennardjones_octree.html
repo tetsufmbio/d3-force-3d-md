@@ -78,8 +78,7 @@
     </div>
 
     <script>
-		
-		const N = 100;
+		const N = 200;
 		const T = 300;
 		const dt = 1;
 		// atomic mass
@@ -211,41 +210,10 @@
 		  
 		  // Add Lennard-Jones potential 
 		  .d3Force('lennard-jones', d3.forceLennardJones())
-		  /*.d3Force('lennard-jones', () => {
-				
-				lennard_jones(nodes);
-			})*/
 		  
-		  // Add other pontentials here
-/*		  
-		 .d3Force('update_pos', () => {
-				for(var a = 0; a < 100; a++){
-					update_pos(nodes);
-					for (var i = 0; i < nodes.length; i++){
-						nodes[i].force_x = 0;
-						nodes[i].force_y = 0;
-						nodes[i].force_z = 0;
-					}
-					lennard_jones(nodes);
-					for (let i = 0; i < nodes.length; i++) {
-						node = nodes[i];
-						// get new accelerations
-						a1 = [node.force_x/mass[node.name], node.force_y/mass[node.name], node.force_z/mass[node.name]]
-						  
-						node.vx += 0.5*(node.accel[0] + a1[0])*dt;
-						node.vy += 0.5*(node.accel[1] + a1[1])*dt;
-						node.vz += 0.5*(node.accel[2] + a1[2])*dt;
-						  
-						// Update acceleration
-						node.accel = a1;
-					}
-				}
-				
-
-		  })
-	    */
 		  // Add bounding box forces		  
 		  .d3Force('box', () => {
+			
 			const CUBE_HALF_SIDE = Graph.nodeRelSize() * N * 0.25;
 
 			nodes.forEach(node => {
@@ -258,28 +226,6 @@
 			});
 		  })
 		  
-		  // Update velocity of each atom
-		  /*.d3Force('update_velocity', () => {
-			
-			for (let i = 0; i < nodes.length; i++) {
-			  node = nodes[i];
-			  // get new accelerations
-			  a1 = [node.force_x/mass[node.name], node.force_y/mass[node.name], node.force_z/mass[node.name]]
-			  
-			  node.vx += 0.5*(node.accel[0] + a1[0])*dt;
-			  node.vy += 0.5*(node.accel[1] + a1[1])*dt;
-			  node.vz += 0.5*(node.accel[2] + a1[2])*dt;
-			  
-			  // Update acceleration
-			  node.accel = a1;
-			  
-			  // correct position 
-			  node.x -= node.vx;
-			  node.y -= node.vy;
-			  node.z -= node.vz;
-				  
-			}
-		  })*/
 		
 		  // Add nodes
 			.graphData(gData)

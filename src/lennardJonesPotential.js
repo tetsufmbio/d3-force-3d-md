@@ -21,13 +21,13 @@ export default function() {
 
   function force(_) {
     var i, 
-		n = nodes.length,
-		tree = 
-			(nDim === 1 ? binarytree(nodes, x)
-            :(nDim === 2 ? quadtree(nodes, x, y)
-            :(nDim === 3 ? octree(nodes, x, y, z)
-            :null
-		))).visitAfter(accumulate);
+    n = nodes.length,
+    tree = 
+      (nDim === 1 ? binarytree(nodes, x)
+      :(nDim === 2 ? quadtree(nodes, x, y)
+      :(nDim === 3 ? octree(nodes, x, y, z)
+      :null
+    ))).visitAfter(accumulate);
 		
     for (alpha = _, i = 0; i < n; ++i) {
       node = nodes[i];
