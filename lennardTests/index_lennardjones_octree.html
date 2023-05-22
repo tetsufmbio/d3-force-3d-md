@@ -79,9 +79,10 @@
 
     <script>
 		const N = 200;
-		const T = 300;
-		const dt = 1;
-		// atomic mass
+		const T = 1000;
+		const dt = 0.1;
+		
+		// atomic data
 		const mass = {
 			"Ar": 39.948,
 		};
@@ -93,7 +94,6 @@
 		const epsilon = {
 			"Ar": 0.0103,
 		};
-		
 		// Determine a random initial velocity 
 		function init_velocity(T, mass){
 			boltzmann = 1.380649*10**(-23);
@@ -127,65 +127,9 @@
 			node.vx = init_velocity(T, mass[node.name]);
 			node.vy = init_velocity(T, mass[node.name]);
 			node.vz = init_velocity(T, mass[node.name]);
-			node.force_x = 0;
-			node.force_y = 0;
-			node.force_z = 0;
+			
 		});
 		
-		// calculate forces for first iteration
-		lennard_jones(nodes);
-		
-		// calculate acceleration for first iteration
-		
-		for (var i = 0; i < nodes.length; i++){
-			let node = nodes[i];
-			a1 = [node.force_x/mass[node.name], node.force_y/mass[node.name], node.force_z/mass[node.name]];
-			node.accel = a1;
-		}
-		
-		function update_pos(nodes){
-			//let t1 = [];
-			for (var i = 0; i < nodes.length; i++){
-				let node = nodes[i];
-				node.x += node.vx * dt + 0.5 * node.accel[0] * dt * dt;
-				node.y += node.vy * dt + 0.5 * node.accel[1] * dt * dt;
-				node.z += node.vz * dt + 0.5 * node.accel[2] * dt * dt;
-				//t1[i] = {"x":t1_x, "y":t1_y, "z":t1_z, "name":node.name};
-			}
-
-			return false;
-		}
-		
-		function lennard_jones(nodes){
-			for (var i = 0; i < nodes.length; i++){
-				
-				for (var j = 0; j < i; j++){
-					if(i == j){
-						continue;
-					}
-					r_x = nodes[j].x - nodes[i].x;
-					r_y = nodes[j].y - nodes[i].y;
-					r_z = nodes[j].z - nodes[i].z;
-					d = (r_x**2 + r_y**2 + r_z**2)**0.5;
-					force_scalar = lj_force(d, (epsilon[nodes[i].name]*epsilon[nodes[j].name])**0.5, (sigma[nodes[i].name]+sigma[nodes[j].name])/2);
-					force_x = force_scalar * r_x / d;
-					force_y = force_scalar * r_y / d;
-					force_z = force_scalar * r_z / d;
-					nodes[i].force_x += -force_x;
-					nodes[i].force_y += -force_y;
-					nodes[i].force_z += -force_z;
-					
-					nodes[j].force_x += force_x;
-					nodes[j].force_y += force_y;
-					nodes[j].force_z += force_z;
-				}
-			}
-			
-			function lj_force (r, epsilon, sigma){
-				return 48 * epsilon * sigma**12 / r**13 - 24 * epsilon * sigma**6 / r**7;
-			}
-			
-		}
 		
         const Graph = ForceGraph3D()
           (document.getElementById('3d-graph'));
